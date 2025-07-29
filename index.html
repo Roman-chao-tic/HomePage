@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Are You Feeling?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            background: url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/YOUR_WALLPAPER.jpg') center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, rgba(238, 119, 82, 0.3), rgba(231, 60, 126, 0.3), rgba(35, 166, 213, 0.3), rgba(35, 213, 171, 0.3));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .feeling-section {
+            min-height: 100vh;
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .feeling-title {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .emotion-btn {
+            padding: 20px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .emotion-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .emotion-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .quote-card {
+            background-color: #fcf4ce;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            margin-top: 2rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .quote-card::after {
+            content: 'Click for next quote';
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.8rem;
+            color: #888;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .quote-card:hover::after {
+            opacity: 1;
+        }
+
+        .quote-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .quote-author {
+            font-size: 1rem;
+            color: #666;
+            font-weight: bold;
+        }
+
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            left: 80%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feeling-title {
+                font-size: 2rem;
+            }
+            
+            .buttons-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .emotion-btn {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome</h1>
+            <p>Discover how you're feeling today</p>
+        </div>
+        <div class="scroll-indicator">
+            <p>Scroll down ↓</p>
+        </div>
+    </section>
+
+    <section class="feeling-section">
+        <h2 class="feeling-title">How are you feeling?</h2>
+        
+        <div class="buttons-container">
+            <button class="emotion-btn" onclick="showQuote('angry')">Angry</button>
+            <button class="emotion-btn" onclick="showQuote('sad')">Sad</button>
+            <button class="emotion-btn" onclick="showQuote('happy')">Happy</button>
+            <button class="emotion-btn" onclick="showQuote('bored')">Bored</button>
+            <button class="emotion-btn" onclick="showQuote('nervous')">Nervous</button>
+            <button class="emotion-btn" onclick="showQuote('lonely')">Lonely</button>
+        </div>
+
+        <div class="quote-card" id="quoteCard" onclick="cycleQuote()">
+            <div class="quote-text" id="quoteText"></div>
+            <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+    </section>
+
+    <script>
+        const quotes = {
+            angry: [
+                { text: "Anger is an acid that can do more harm to the vessel in which it is stored than to anything on which it is poured.", author: "Mark Twain" },
+                { text: "For every minute you remain angry, you give up sixty seconds of peace of mind.", author: "Ralph Waldo Emerson" },
+                { text: "Holding on to anger is like grasping a hot coal with the intent of throwing it at someone else; you are the one who gets burned.", author: "Buddha" },
+                { text: "Anger makes you smaller, while forgiveness forces you to grow beyond what you are.", author: "Cherie Carter-Scott" },
+                { text: "The best fighter is never angry.", author: "Lao Tzu" },
+                { text: "Anger is a wind which blows out the lamp of the mind.", author: "Robert Green Ingersoll" },
+                { text: "When anger rises, think of the consequences.", author: "Confucius" }
+            ],
+            sad: [
+                { text: "The word 'happiness' would lose its meaning if it were not balanced by sadness.", author: "Carl Jung" },
+                { text: "Tears are words that need to be written.", author: "Paulo Coelho" },
+                { text: "The cure for anything is salt water: sweat, tears or the sea.", author: "Isak Dinesen" },
+                { text: "Sadness flies away on the wings of time.", author: "Jean de La Fontaine" },
+                { text: "Every man has his secret sorrows which the world knows not; and often times we call a man cold when he is only sad.", author: "Henry Wadsworth Longfellow" },
+                { text: "Behind every sweet smile, there is a bitter sadness that no one can ever see and feel.", author: "Tupac Shakur" },
+                { text: "Sadness is but a wall between two gardens.", author: "Kahlil Gibran" }
+            ],
+            happy: [
+                { text: "Happiness is not something ready made. It comes from your own actions.", author: "Dalai Lama" },
+                { text: "The purpose of our lives is to be happy.", author: "Dalai Lama" },
+                { text: "Happiness is when what you think, what you say, and what you do are in harmony.", author: "Mahatma Gandhi" },
+                { text: "The happiest people don't have the best of everything, they just make the best of everything.", author: "Anonymous" },
+                { text: "Happiness is a choice, not a result. Nothing will make you happy until you choose to be happy.", author: "Ralph Marston" },
+                { text: "Count your age by friends, not years. Count your life by smiles, not tears.", author: "John Lennon" },
+                { text: "Happiness is not by chance, but by choice.", author: "Jim Rohn" }
+            ],
+            bored: [
+                { text: "Boredom is the feeling that everything is a waste of time; serenity, that nothing is.", author: "Thomas Szasz" },
+                { text: "The cure for boredom is curiosity. There is no cure for curiosity.", author: "Dorothy Parker" },
+                { text: "Boredom is simply the absence of an interesting perspective.", author: "Tim Fargo" },
+                { text: "I'm bored is a useless thing to say. You live in a great, big, vast world that you've seen none percent of.", author: "Louis C.K." },
+                { text: "Boredom is the root of all evil - the despairing refusal to be oneself.", author: "Søren Kierkegaard" },
+                { text: "The life of the creative man is lead, directed and controlled by boredom. Avoiding boredom is one of our most important purposes.", author: "Susan Sontag" },
+                { text: "Boredom is just the reverse side of fascination: both depend on being outside rather than inside a situation.", author: "Arthur Schopenhauer" }
+            ],
+            nervous: [
+                { text: "You are braver than you believe, stronger than you seem, and smarter than you think.", author: "A.A. Milne" },
+                { text: "Courage is not the absence of fear, but action in spite of it.", author: "Mark Twain" },
+                { text: "The cave you fear to enter holds the treasure you seek.", author: "Joseph Campbell" },
+                { text: "Anxiety is the dizziness of freedom.", author: "Søren Kierkegaard" },
+                { text: "Nothing in life is to be feared, it is only to be understood.", author: "Marie Curie" },
+                { text: "The only way to overcome fear is to face it head on.", author: "Anonymous" },
+                { text: "Nervousness is just excitement without breath.", author: "Fritz Perls" }
+            ],
+            lonely: [
+                { text: "The greatest thing in the world is to know how to belong to oneself.", author: "Michel de Montaigne" },
+                { text: "Loneliness is not lack of company, loneliness is lack of purpose.", author: "Guillermo Maldonado" },
+                { text: "The soul that sees beauty may sometimes walk alone.", author: "Johann Wolfgang von Goethe" },
+                { text: "All great and precious things are lonely.", author: "John Steinbeck" },
+                { text: "Loneliness is the human condition. Cultivating solitude is the beginning of making peace with loneliness.", author: "Naval Ravikant" },
+                { text: "The eternal quest of the individual human being is to shatter his loneliness.", author: "Norman Cousins" },
+                { text: "Loneliness is not being alone, it's the feeling that no one cares.", author: "Anonymous" }
+            ]
+        };
+
+        let currentEmotion = '';
+        let currentQuoteIndex = 0;
+
+        function showQuote(emotion) {
+            currentEmotion = emotion;
+            currentQuoteIndex = 0;
+            
+            const quoteCard = document.getElementById('quoteCard');
+            const quoteText = document.getElementById('quoteText');
+            const quoteAuthor = document.getElementById('quoteAuthor');
+            
+            // Hide card first
+            quoteCard.classList.remove('show');
+            
+            setTimeout(() => {
+                const quote = quotes[emotion][currentQuoteIndex];
+                quoteText.textContent = `"${quote.text}"`;
+                quoteAuthor.textContent = `— ${quote.author}`;
+                quoteCard.classList.add('show');
+            }, 250);
+        }
+
+        function cycleQuote() {
+            if (!currentEmotion) return;
+            
+            const quoteCard = document.getElementById('quoteCard');
+            const quoteText = document.getElementById('quoteText');
+            const quoteAuthor = document.getElementById('quoteAuthor');
+            
+            // Hide card
+            quoteCard.classList.remove('show');
+            
+            setTimeout(() => {
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes[currentEmotion].length;
+                const quote = quotes[currentEmotion][currentQuoteIndex];
+                quoteText.textContent = `"${quote.text}"`;
+                quoteAuthor.textContent = `— ${quote.author}`;
+                quoteCard.classList.add('show');
+            }, 250);
+        }
+
+        // Smooth scrolling for better user experience
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            scrollIndicator.addEventListener('click', function() {
+                document.querySelector('.feeling-section').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
