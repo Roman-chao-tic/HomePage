@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>browsHER</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading" class="fullscreen">
+    <div class="loading-container">
+      <div class="barber-pole"></div>
+      <h1>Opening browsHER</h1>
+      <audio id="bunnyAudio" src="assets/bunny.mp3" preload="auto"></audio>
+      <button id="openBtn" class="boba-btn">Open</button>
+    </div>
+  </div>
+
+  <!-- Main Page -->
+  <div id="main" class="hidden fullscreen">
+    <!-- BG Container -->
+    <div id="bgContainer">
+      <img id="dayGif" class="bg-gif hidden" src="assets/video/day.gif" alt="Day">
+      <img id="nightGif" class="bg-gif hidden" src="assets/video/night.gif" alt="Night">
+    </div>
+
+    <!-- Widgets Top Right -->
+    <div id="widgets" class="widgets">
+      <div id="daysWidget" class="widget glassy">Eksathe for <span id="daysCount"></span></div>
+      <div id="timeWidget" class="widget glassy clickable">
+        <span id="time"></span><br>
+        <span id="date"></span>
+      </div>
+    </div>
+
+    <!-- Emotion Section -->
+    <div id="emotionSection">
+      <h2>How are you feeling today, Sona?</h2>
+      <div id="emotionBubbles">
+        <!-- Bubbles added by JS -->
+      </div>
+    </div>
+
+    <!-- Search Bar Top Center -->
+    <div id="searchContainer" class="search-container glassy">
+      <input type="text" id="searchInput" placeholder="Search Google...">
+      <button id="searchBtn">Search</button>
+    </div>
+  </div>
+
+  <!-- Fact Cloud Popup -->
+  <div id="factCloud" class="cloud hidden"></div>
+
+  <!-- Emotion Sentence Popup -->
+  <div id="emotionPopup" class="popup hidden"></div>
+</body>
+</html>

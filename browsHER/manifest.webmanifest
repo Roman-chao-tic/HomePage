@@ -1,0 +1,16 @@
+{
+  "name": "browsHER",
+  "short_name": "browsHER",
+  "description": "Custom glassy new tab homepage",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5DC",
+  "theme_color": "#D2B48C",
+  "icons": [
+    {
+      "src": "assets/icon128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ]
+}

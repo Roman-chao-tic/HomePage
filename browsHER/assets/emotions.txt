@@ -1,0 +1,11 @@
+## Emotions Sentences Placeholder
+# Replace with your 42 lines (7 per emotion)
+# Format: Angry: sentence1
+#        Angry: sentence2
+# etc.
+
+Angry: Take deep breaths.
+Angry: Go for a walk.
+Sad: It\'s okay to cry.
+Sad: Watch funny videos.
+# ... add all 42
