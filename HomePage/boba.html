@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Super Squishy Boba ✨</title>
+    <link rel="stylesheet" href="boba.css">
+</head>
+<body>
+    <div id="boba-app">
+
+        <!-- Title -->
+        <h1 id="boba-title" class="boba-title hidden">✨ Super Squishy Boba ✨</h1>
+
+        <!-- The Boba Ball -->
+        <div class="boba-canvas-wrap">
+            <canvas id="boba-canvas" class="boba-canvas hidden"></canvas>
+        </div>
+
+        <!-- Loader -->
+        <div id="boba-loader" class="boba-loader">
+            <div class="loader-bar-track">
+                <div class="loader-bar-fill"></div>
+            </div>
+            <p class="loader-text">Brewing Boba...</p>
+        </div>
+
+        <!-- Back link -->
+        <a href="index.html?direct=1" class="back-link">← back to browsHER</a>
+    </div>
+
+    <script src="boba.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>browsHER</title>
+    <meta name="description" content="Sona's personal browser start page — warm, cozy, yours.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ── Start overlay ──────────────────────────────── -->
+    <div id="start-overlay">
+        <h2>Click to Wake Up browsHER</h2>
+    </div>
+
+    <!-- ── Loading screen ────────────────────────────── -->
+    <div id="loading-screen" class="hidden">
+        <h1 class="loading-text">Opening browsHER</h1>
+
+        <!-- Horizontal loading bar -->
+        <div class="loading-bar-wrap">
+            <div id="loading-bar"></div>
+        </div>
+
+        <!-- Boba ball open button -->
+        <button id="open-btn" class="hidden" aria-label="Open browsHER"></button>
+        <span class="open-label hidden" id="open-label">tap to open</span>
+    </div>
+
+    <!-- ── Homepage ───────────────────────────────────── -->
+    <div id="homepage" class="hidden">
+        <div class="top-widgets">
+            <div class="glass-bubble widget">
+                <div class="time-date">
+                    <span id="time">00:00</span><br>
+                    <span id="date-text" class="interactive"><span id="dd" class="red-text">DD</span>/MM/YY</span>
+                </div>
+                <div id="fact-cloud" class="cloud hidden">✨ Loading…</div>
+            </div>
+
+            <div class="glass-bubble widget" id="eksathe-widget">
+                <span id="eksathe-counter">Eksathe for 0 days</span>
+                <div id="eksathe-tooltip" class="eksathe-tooltip">Next Anniversary: 15th May 2026 (Fri)</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <form action="https://www.google.com/search" method="get">
+                <input type="text" name="q" id="search-input" class="glass-bubble search-bar" placeholder="Search the web…" autocomplete="off">
+            </form>
+        </div>
+
+        <div class="emotion-section">
+            <h2 class="emotion-title">HOW ARE YOU FEELING TODAY, SONA?</h2>
+            <div class="emotion-bubbles">
+                <button class="glass-bubble emotion-btn" data-emotion="Angry"   style="--btn-color: #ff4d4d;">Angry</button>
+                <button class="glass-bubble emotion-btn" data-emotion="Sad"     style="--btn-color: #4da6ff;">Sad</button>
+                <button class="glass-bubble emotion-btn" data-emotion="Happy"   style="--btn-color: #ffdd4d;">Happy</button>
+                <button class="glass-bubble emotion-btn" data-emotion="Bored"   style="--btn-color: #a6a6a6;">Bored</button>
+                <button class="glass-bubble emotion-btn" data-emotion="Nervous" style="--btn-color: #b366ff;">Nervous</button>
+                <button class="glass-bubble emotion-btn" data-emotion="Lonely"  style="--btn-color: #4dffff;">Lonely</button>
+            </div>
+            <div id="emotion-response" class="glass-bubble hidden"></div>
+        </div>
+
+        <!-- Boba link -->
+        <a href="boba.html" class="boba-link glass-bubble" id="boba-link">🧋 Squish Boba</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

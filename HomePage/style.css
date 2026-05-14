@@ -1,0 +1,543 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ── Body ───────────────────────────────────────────────────── */
+body {
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-color: #c8a882;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1.5s ease-in-out;
+}
+
+/* ── Visibility helper (fade, not snap) ─────────────────────── */
+.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: scale(0.97) !important;
+    transition: opacity 0.6s ease, transform 0.6s ease !important;
+}
+
+.fade-out {
+    opacity: 0;
+    transform: scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ── Screen base ────────────────────────────────────────────── */
+#start-overlay,
+#loading-screen,
+#homepage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+#start-overlay,
+#loading-screen {
+    background: linear-gradient(160deg,
+        rgba(212, 184, 149, 0.92) 0%,
+        rgba(180, 140, 100, 0.88) 100%);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+}
+
+#homepage {
+    justify-content: space-between;
+    padding: 24px;
+    z-index: 10;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ── Start overlay ──────────────────────────────────────────── */
+#start-overlay h2 {
+    color: #3b2a1a;
+    letter-spacing: 3px;
+    font-weight: 600;
+    font-size: 1.4rem;
+    animation: pulse 2s ease-in-out infinite;
+    cursor: pointer;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.6; transform: scale(1.04); }
+}
+
+/* ── Loading screen ─────────────────────────────────────────── */
+.loading-text {
+    color: #3b2a1a;
+    margin-bottom: 32px;
+    letter-spacing: 3px;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+/* ── Coffee loading bar ────────────────────────────────────── */
+.loading-bar-wrap {
+    width: 340px;
+    height: 28px;
+    border-radius: 16px;
+    border: 2.5px solid rgba(74, 48, 28, 0.55);
+    background:
+        linear-gradient(180deg,
+            rgba(60, 35, 15, 0.12) 0%,
+            rgba(40, 22, 8, 0.25) 100%);
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    margin-bottom: 36px;
+    box-shadow:
+        inset 0 3px 8px rgba(0,0,0,0.3),
+        inset 0 -1px 2px rgba(255,220,180,0.1),
+        0 4px 14px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+/* Ceramic rim highlight */
+.loading-bar-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    border-top: 1px solid rgba(255, 240, 210, 0.25);
+    pointer-events: none;
+    z-index: 2;
+}
+
+#loading-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: width 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+    /* Deep espresso → caramel → crema layers */
+    background:
+        linear-gradient(180deg,
+            rgba(210, 170, 120, 0.95) 0%,      /* crema foam top */
+            rgba(170, 110, 55, 1)     18%,      /* light roast */
+            rgba(120, 65, 20, 1)      45%,      /* medium roast */
+            rgba(65, 30, 5, 1)        75%,      /* dark espresso */
+            rgba(45, 18, 2, 1)        100%);    /* deepest brew */
+    box-shadow:
+        0 0 16px rgba(180, 110, 50, 0.5),
+        0 0 6px rgba(140, 80, 30, 0.4),
+        inset 0 2px 4px rgba(255, 220, 170, 0.3),
+        inset 0 -2px 6px rgba(30, 12, 0, 0.5);
+    animation: coffeeSway 2.5s ease-in-out infinite;
+}
+
+/* Foam / bubble texture on surface */
+#loading-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background:
+        radial-gradient(ellipse 6px 3px at 15% 30%, rgba(255,245,230,0.4) 0%, transparent 100%),
+        radial-gradient(ellipse 4px 2px at 35% 50%, rgba(255,240,220,0.3) 0%, transparent 100%),
+        radial-gradient(ellipse 5px 3px at 55% 25%, rgba(255,235,210,0.35) 0%, transparent 100%),
+        radial-gradient(ellipse 3px 2px at 72% 40%, rgba(255,245,225,0.25) 0%, transparent 100%),
+        radial-gradient(ellipse 7px 3px at 88% 35%, rgba(255,240,215,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    animation: foamDrift 3s ease-in-out infinite alternate;
+}
+
+/* Glossy sheen across top */
+#loading-bar::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(180deg,
+        rgba(255, 250, 235, 0.35) 0%,
+        rgba(255, 245, 225, 0.1) 60%,
+        transparent 100%);
+    border-radius: 14px 14px 0 0;
+    pointer-events: none;
+}
+
+@keyframes coffeeSway {
+    0%, 100% { transform: scaleY(1); }
+    30%      { transform: scaleY(1.02); }
+    60%      { transform: scaleY(0.98); }
+}
+
+@keyframes foamDrift {
+    0%   { transform: translateX(0); opacity: 0.8; }
+    100% { transform: translateX(6px); opacity: 1; }
+}
+
+/* ── BOBA BALL open button — big black shiny sphere ─────────── */
+#open-btn {
+    margin-top: 8px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: none;
+    /* Deep black with subtle dark-brown tint */
+    background: radial-gradient(circle at 36% 30%,
+        #3a3a3a 0%,
+        #111111 45%,
+        #000000 100%);
+    cursor: pointer;
+    position: relative;
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.7),
+        0 6px 20px rgba(0, 0, 0, 0.5),
+        inset 0 -8px 20px rgba(0, 0, 0, 0.6),
+        inset 0 6px 14px rgba(255, 255, 255, 0.08);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.4s ease;
+    overflow: hidden;
+}
+
+/* Large glossy highlight — top-left catch light */
+#open-btn::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 22px;
+    width: 36px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    filter: blur(4px);
+    transform: rotate(-28deg);
+}
+
+/* Small secondary specular dot */
+#open-btn::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 54px;
+    width: 10px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    filter: blur(2px);
+}
+
+#open-btn:hover {
+    transform: scale(1.1) translateY(-6px);
+    box-shadow:
+        0 28px 70px rgba(0, 0, 0, 0.75),
+        0 10px 30px rgba(0, 0, 0, 0.55),
+        inset 0 -8px 20px rgba(0, 0, 0, 0.6),
+        inset 0 6px 14px rgba(255, 255, 255, 0.1);
+}
+
+#open-btn:active {
+    transform: scale(0.94);
+}
+
+/* Open label below boba ball */
+.open-label {
+    margin-top: 12px;
+    color: #3b2a1a;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease 0.2s forwards;
+}
+
+/* ── Glass bubbles (liquid morphism) ────────────────────────── */
+.glass-bubble {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255,255,255,0.28),
+        inset 0 -1px 0 rgba(0,0,0,0.08);
+    border-radius: 28px;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow 0.35s ease,
+                background 0.35s ease;
+}
+
+.glass-bubble:hover {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 16px 48px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset 0 -1px 0 rgba(0,0,0,0.08);
+}
+
+/* ── Top widgets ─────────────────────────────────────────────── */
+.top-widgets {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 8px;
+    gap: 16px;
+}
+
+.widget {
+    padding: 14px 24px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    animation: fadeSlideDown 0.6s ease both;
+}
+
+.widget:nth-child(2) { animation-delay: 0.15s; }
+
+.red-text { color: #ff7a7a; text-shadow: 0 1px 4px rgba(0,0,0,0.7); }
+
+.interactive {
+    cursor: pointer;
+    transition: transform 0.25s ease;
+    display: inline-block;
+}
+.interactive:hover { transform: scale(1.07); }
+
+/* ── Eksathe tooltip ────────────────────────────────────────── */
+#eksathe-widget {
+    cursor: pointer;
+    overflow: visible;
+}
+
+.eksathe-tooltip {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px) scale(0.97);
+    white-space: nowrap;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    color: #2a1a0a;
+    text-shadow: none;
+    border-radius: 16px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 60;
+}
+
+#eksathe-widget:hover .eksathe-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* ── Fact cloud ──────────────────────────────────────────────── */
+.cloud {
+    position: absolute;
+    top: 68px;
+    left: 0;
+    width: 280px;
+    padding: 16px 18px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    color: #2a1a0a;
+    text-shadow: none;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 50;
+}
+
+.cloud.hidden {
+    opacity: 0 !important;
+    transform: translateY(-8px) scale(0.96) !important;
+    pointer-events: none !important;
+}
+
+/* ── Search ──────────────────────────────────────────────────── */
+.search-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeSlideUp 0.7s ease 0.25s both;
+}
+
+.search-bar {
+    width: 52vw;
+    padding: 16px 28px;
+    font-size: 1.15rem;
+    color: white;
+    outline: none;
+    border: 1.5px solid rgba(255,255,255,0.45);
+    background: rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.2),
+        0 0 18px rgba(255,255,255,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset 0 -1px 0 rgba(0,0,0,0.08);
+    transition: width 0.4s cubic-bezier(0.34,1.56,0.64,1),
+                background 0.4s ease,
+                box-shadow 0.4s ease,
+                border-color 0.4s ease,
+                backdrop-filter 0.4s ease;
+}
+
+.search-bar::placeholder { color: rgba(255,255,255,0.7); }
+
+.search-bar:hover {
+    background: rgba(255, 255, 255, 0.62);
+    border-color: rgba(255,255,255,0.6);
+    backdrop-filter: blur(36px) saturate(210%);
+    -webkit-backdrop-filter: blur(36px) saturate(210%);
+    box-shadow:
+        0 14px 44px rgba(0,0,0,0.22),
+        0 0 28px rgba(255,255,255,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.4),
+        inset 0 -1px 0 rgba(0,0,0,0.06);
+}
+
+.search-bar:focus {
+    width: 62vw;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(36px) saturate(220%);
+    -webkit-backdrop-filter: blur(36px) saturate(220%);
+    box-shadow:
+        0 0 0 2px rgba(255,255,255,0.35),
+        0 16px 48px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+/* ── Emotions ────────────────────────────────────────────────── */
+.emotion-section {
+    text-align: center;
+    padding-bottom: 40px;
+    animation: fadeSlideUp 0.7s ease 0.35s both;
+}
+
+.emotion-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: rgba(255,255,255,0.92);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    letter-spacing: 1.5px;
+}
+
+.emotion-bubbles {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.emotion-btn {
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--btn-color);
+    box-shadow:
+        0 4px 20px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.25);
+    transition:
+        background 0.3s ease,
+        transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+        box-shadow 0.3s ease;
+}
+
+.emotion-btn:hover {
+    background: color-mix(in srgb, var(--btn-color) 35%, transparent);
+    transform: translateY(-6px) scale(1.04);
+    box-shadow:
+        0 12px 32px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.emotion-btn:active { transform: scale(0.96); }
+
+#emotion-response {
+    margin-top: 20px;
+    padding: 16px 22px;
+    display: inline-block;
+    max-width: 580px;
+    font-style: italic;
+    font-size: 1.05rem;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+#emotion-response.hidden {
+    opacity: 0 !important;
+    transform: translateY(8px) scale(0.97) !important;
+    pointer-events: none !important;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────── */
+@keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes liquidWobble {
+    0%, 100% { border-radius: 28px; }
+    33%       { border-radius: 34px 22px 30px 24px; }
+    66%       { border-radius: 22px 32px 24px 34px; }
+}
+
+/* ── Boba page link ──────────────────────────────────────────── */
+.boba-link {
+    display: inline-block;
+    margin-top: 12px;
+    margin-bottom: 16px;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 1px;
+    animation: fadeSlideUp 0.8s ease 0.5s both;
+    cursor: pointer;
+}
+
+.boba-link:hover {
+    transform: translateY(-4px) scale(1.05);
+}
